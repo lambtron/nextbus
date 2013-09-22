@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Next Bus
+  p Select the bus stops where you get on for work.
+  div
+    select
+      - for (var i=0; i<data.routeTags.length; i++)
+        div value: #{data.routeTags[i].tag}, title: #{data.routeTags[i].title}
