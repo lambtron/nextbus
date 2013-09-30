@@ -36,25 +36,22 @@ app.get('/', function (req, res) {
   // Agency is SF-Muni by default.
   var a = 'sf-muni';
 
-  getRouteTags(a, function(data) {
-    // console.log(data);
+  // For our purposes, we will select the following static variables:
+  //  a = sf-muni
+  //  routes = 38, 38L, 2, 3 // ALL INBOUND TO TERMINAL BAY
+  //  stops = geary+diviz, geary+scott, scott+sutter, sutter+fillmore
+  var routes = ['2', '3', '38', '38L'];
+  var stopIds = ['16608', '16592', '14761', '14294'];
+  var stops = [{route: '2', stopTag: '6608'},
+               {route: '3', stopTag: '6592'},
+               {route: '38', stopTag: '4761'},
+               {route: '38L', stopTag: '4294'}];
+  var predictions = [];
 
-    console.log(data[0]);
-    for(var i=0; i<data.length; i++) {
-      getStopTags(a, data[0].tag, function(d) {
-        console.log(d);
-      });
-    }
-
-    res.render('index.jade', {data: {routeTags: data}});
+  getAllPredictions(a, stops, function(predictions) {
+    console.log('final predictions: ' + predictions);
+    res.render('index.jade', {pageData: {name: predictions}});
   });
-
-  // var routeTag = '38L';
-  // getStopTags(a, routeTag, function(data) {
-  //   console.log(data);
-  // });
-
-  // Display selection on front end.
 });
 
 app.post('/get-stop-tags', function (req, res) {
@@ -139,5 +136,90 @@ function getStopTags(a, routeTag, fn) {
     });
   }).on('error', function(e) {
     console.log('Error: ' + e.message);
+  });
+}
+
+// function getPrediction(a, stopId, fn) {
+//   var options = {
+//     host: 'webservices.nextbus.com',
+//     path: '/service/publicXMLFeed?command=predictions&a=' + a + '&stopId=' + stopId + '&useShortTitles=true'
+//   };
+
+//   http.get(options, function(res) {
+//     var body = '';
+//     res.on('data', function(chunk) {
+//       body += chunk;
+//     });
+//     res.on('end', function() {
+//       parser.parseString(body, function(err, result) {
+//         // if(typeof result.body.predictions[0].direction === 'undefined')
+//         //   console.log('undefined by andy');
+//         // else
+//         //   console.log(result.body.predictions[0].direction[0].prediction[0].$.minutes);
+//         // console.log('new line');
+//         if(typeof result.body.predictions[0].direction === 'undefined') {
+//           console.log('undefined by andy');
+//         } else {
+//           for(var i=0; i<result.body.predictions[0].direction[0].prediction[0].$.minutes.length; i++) {
+//             console.log(result.body.predictions[0].direction[0].prediction[i].$.minutes);
+//             fn(result.body);
+//           };
+//         };
+
+//       });
+//     });
+//   });
+// }
+
+function getAllPredictions(a, stops, fn) {
+  predictions = [];
+  for(var i=0; i<stops.length; i++) {
+    getPrediction(a, stops[i].route, stops[i].stopTag, function(d) {
+      predictions.push(d);
+      if (predictions.length == stops.length)
+        fn(predictions);
+    });
+  };
+}
+
+function getPrediction(a, r, stopTag, fn) {
+  var options = {
+    host: 'webservices.nextbus.com',
+    path: '/service/publicXMLFeed?command=predictions&a=' + a + '&r=' + r + '&s=' + stopTag + '&useShortTitles=true'
+  };
+
+  http.get(options, function(res) {
+    var body = '';
+    res.on('data', function(chunk) {
+      body += chunk;
+    });
+    res.on('end', function() {
+      parser.parseString(body, function(err, result) {
+        // To get the stop title.
+        // console.log(result.body.predictions[0].$.stopTitle);
+
+        // To get the predictions.
+        if(typeof result.body.predictions[0].direction === 'undefined') {
+          fn('undefined');
+        } else {
+          var predictions = [];
+
+          for(var i=0; i<result.body.predictions[0].direction[0].prediction.length; i++) {
+            predictions.push(result.body.predictions[0].direction[0].prediction[i].$.minutes);
+
+            if (predictions.length ==result.body.predictions[0].direction[0].prediction.length ) {
+              // Get the result data.
+              var res = {routeTitle: result.body.predictions[0].$.routeTitle,
+                         stopTitle: result.body.predictions[0].$.stopTitle,
+                         predictions: predictions};
+
+              console.log(res);
+
+              fn(res);
+            };
+          };
+        };
+      });
+    });
   });
 }

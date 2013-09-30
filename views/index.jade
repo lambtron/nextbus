@@ -1,9 +1,13 @@
 extends layout
 
 block content
-  h1 Next Bus
-  p Select the bus stops where you get on for work.
-  div
-    select
-      - for (var i=0; i<data.routeTags.length; i++)
-        div value: #{data.routeTags[i].tag}, title: #{data.routeTags[i].title}
+  h1 Next Buses from 2287 Sutter to Downtown SF
+  div.container
+    each item in pageData.name
+      div.bus-route
+        if (item !=='undefined')
+          div.route-title #{item.routeTitle}
+          div.stop-title #{item.stopTitle}
+          each p in item.predictions
+            div.predictions #{p} minutes
+          br
