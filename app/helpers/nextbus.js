@@ -60,7 +60,7 @@ var stops = [{route: '2', stopTag: '6608'},
               prediction.timeUntilArrival = 
               	Number(result.body.predictions[0].direction[0].prediction[i].$.minutes);
               prediction.timeOfArrival = moment().zone("-08:00").add('minutes',
-                prediction.timeUntilArrival).format("hh:mm");
+                prediction.timeUntilArrival).format("h:mm");
               prediction.stopTitle = result.body.predictions[0].$.stopTitle;
               prediction.routeTitle = result.body.predictions[0].$.routeTitle;
               prediction.showMinutes = true;
