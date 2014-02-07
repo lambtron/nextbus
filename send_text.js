@@ -14,7 +14,7 @@ function sendText() {
     	body = body + line;
     }
     body = body + "For more, check out sutterbus.herokuapp.com/";
-    Twilio.sendMessage('+12409887757', '+14157992563', body);
+    Twilio.sendMessage('+12409887757', body);
   });
 }
 
