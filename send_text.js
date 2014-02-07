@@ -1,3 +1,6 @@
+// Set environmental variables.
+require('./config/config');
+
 var Twilio = require('./app/helpers/twilio')
 	, NextBus = require('./app/helpers/nextbus');
 
@@ -10,6 +13,7 @@ function sendText() {
     		+ ' for the ' + data[i].routeTitle + '.\n';
     	body = body + line;
     }
+    body = body + "For more, check out sutterbus.herokuapp.com/";
     Twilio.sendMessage('+12409887757', '+14157992563', body);
   });
 }
