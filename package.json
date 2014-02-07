@@ -1,12 +1,24 @@
 {
   "name": "next-bus",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app.js"
+  "description": "Inbound bus predictions for Sutters of Catan",
+  "version": "0.0.2",
+  "author": "Andy Jiang",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lambtron/nextbus"
   },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  },
+  "private": true,
   "dependencies": {
-    "express": "3.3.4",
-    "jade": "*"
+    "express": "3.x",
+    "mongoose": "2.x",
+    "underscore": "latest",
+    "twilio": "latest",
+    "socket.io": "latest",
+    "moment": "latest"
   }
 }

@@ -1,0 +1,16 @@
+.prediction {
+	text-align: center;
+	margin: 0 auto;
+}
+
+.time {
+	font-size: 2em;
+}
+
+.time .number {
+	font-size: 3em;
+}
+
+.subtext {
+	color: #7A7A7A;
+}

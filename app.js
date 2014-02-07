@@ -205,17 +205,16 @@ function getPrediction(a, r, stopTag, fn) {
           var predictions = [];
 
           for(var i=0; i<result.body.predictions[0].direction[0].prediction.length; i++) {
-            predictions.push(result.body.predictions[0].direction[0].prediction[i].$.minutes);
+            var prediction = {};
+            prediction.timeUntilArrival = result.body.predictions[0].direction[0].prediction[i].$.minutes;
+            prediction.stopTitle = result.body.predictions[0].$.stopTitle;
+            prediction.routeTitle = result.body.predictions[0].$.routeTitle;
 
+            predictions.push(prediction);
+
+            // After putting all of it into the array.
             if (predictions.length ==result.body.predictions[0].direction[0].prediction.length ) {
-              // Get the result data.
-              var res = {routeTitle: result.body.predictions[0].$.routeTitle,
-                         stopTitle: result.body.predictions[0].$.stopTitle,
-                         predictions: predictions};
-
-              console.log(res);
-
-              fn(res);
+              fn(predictions);
             };
           };
         };
