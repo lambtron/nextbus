@@ -18,6 +18,6 @@ sutterbus.controller('mainController', ['$scope', '$http', 'socket',
   // Receiving data from server and pushing to front-end.
   socket.on('predictions', function(data) {
     $scope.predictions = data;
-    console.log(data);
+    // console.log(data);
   });
 }]);

@@ -2,11 +2,14 @@
 require('./config/config');
 
 var Twilio = require('./app/helpers/twilio')
-	, NextBus = require('./app/helpers/nextbus');
+	, NextBus = require('./app/helpers/nextbus')
+    , _ = require('underscore');
 
 // Need to order these.
 function sendText() {
 	NextBus.getAllPredictions(function(data) {
+
+    // Sort the data.
     console.log(data);
     var body = '';
     for (var i = 0; i < data.length; i++ ) {

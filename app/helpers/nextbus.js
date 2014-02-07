@@ -22,7 +22,7 @@ var stops = [{route: '2', stopTag: '6608'},
         getPrediction(a, stops[i].route, stops[i].stopTag, function(data) {
           allPredictions.push(data);
           if (allPredictions.length == stops.length)
-            fn(_.compact(_.flatten(allPredictions)));
+            fn(_.sortBy(_.compact(_.flatten(allPredictions)), 'timeUntilArrival'));
         });
       }
     }
