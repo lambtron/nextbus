@@ -5,20 +5,7 @@
 /**
  * Import helpers ==============================================================
  */
-var Twilio = require('../app/helpers/twilio')
-	, _ = require('underscore')
-  , xml2js = require('xml2js')
-  , http = require('http');
-
-// Needed for parsing XML.
-var parser = new xml2js.Parser();
-
-// Set static variables.
-var a = 'sf-muni';
-var stops = [{route: '2', stopTag: '6608'},
-             {route: '3', stopTag: '6592'},
-             {route: '38', stopTag: '4761'},
-             {route: '38L', stopTag: '4294'}];
+var NextBus = require('../app/helpers/nextbus');
 
 // Public functions. ===========================================================
 module.exports = function(app, io) {
@@ -32,7 +19,7 @@ module.exports = function(app, io) {
         clearInterval(interval);
         return;
       }
-      getAllPredictions(a, stops, function(data) {
+      NextBus.getAllPredictions(function(data) {
         console.log(data);
         io.sockets.emit('predictions', data);
         res.send(data, 200);
@@ -49,65 +36,6 @@ module.exports = function(app, io) {
 		// Load the single view file (Angular will handle the page changes).
 		res.sendfile('index.html', {'root': './public/views/'});
 	});
-}
-
-function getAllPredictions(a, stops, fn) {
-  var allPredictions = [];
-  for(var i = 0; i < stops.length; i++) {
-    getPrediction(a, stops[i].route, stops[i].stopTag, function(data) {
-      allPredictions.push(data);
-      if (allPredictions.length == stops.length)
-        fn(_.compact(_.flatten(allPredictions)));
-    });
-  };
-}
-
-// a = sf-muni
-function getPrediction(a, r, stopTag, fn) {
-  var options = {
-    host: 'webservices.nextbus.com',
-    path: '/service/publicXMLFeed?command=predictions&a=' + a + '&r=' + r
-    			+ '&s=' + stopTag + '&useShortTitles=true'
-  };
-
-  // Make the HTTP request to Nextbus API.
-  http.get(options, function(res) {
-    var body = '';
-    res.on('data', function(chunk) {
-      body += chunk;
-    });
-    res.on('end', function() {
-      parser.parseString(body, function(err, result) {
-        // To get the stop title.
-        // console.log(result.body.predictions[0].$.stopTitle);
-
-        // To get the predictions.
-        if (typeof result.body.predictions[0].direction === 'undefined') {
-          fn(undefined);
-        } else {
-          var predictions = [];
-
-          for( var i = 0;
-          	i < result.body.predictions[0].direction[0].prediction.length;
-          	i++ ) {
-            var prediction = {};
-            prediction.timeUntilArrival = 
-            	Number(result.body.predictions[0].direction[0].prediction[i].$.minutes);
-            prediction.stopTitle = result.body.predictions[0].$.stopTitle;
-            prediction.routeTitle = result.body.predictions[0].$.routeTitle;
-
-            predictions.push(prediction);
-
-            // After putting all of it into the array.
-            if (predictions.length ==
-            	result.body.predictions[0].direction[0].prediction.length ) {
-              fn(predictions);
-            }
-          }
-        }
-      });
-    });
-  });
 }
 
 }());
