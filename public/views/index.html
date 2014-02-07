@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	
+
 	<title>Sutter Bus</title>
 
 	<!-- SCROLLS -->
@@ -27,19 +27,27 @@
 	<script src="/public/js/controllers.js"></script>
 	<script src="/public/js/directives.js"></script>
 
-	<!-- jQuery -->
+	<!-- Page specific js. -->
 	<script src="/public/js/index.js"></script>
 </head>
 
 <!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
 <body ng-controller="mainController">
 	<div class="container">
-		<div ng-repeat="prediction in (predictions | orderBy: 'timeUntilArrival')" class="prediction">
+		<div ng-repeat="prediction in (predictions | orderBy: 'timeUntilArrival')" class="prediction" ng-click="
+      prediction.showMinutes = !prediction.showMinutes">
 			<div class="time">
 				<span class="number">
-					{{prediction.timeUntilArrival}}
+					<span ng-show="prediction.showMinutes">
+						{{prediction.timeUntilArrival}}
+					</span>
+					<span ng-hide="prediction.showMinutes">
+						{{prediction.timeOfArrival}}
+					</span>
 				</span>
-				min
+				<span ng-show="prediction.showMinutes">
+					min
+				</span>
 			</div>
 			<span class="subtext">
 				{{prediction.stopTitle}} for the {{prediction.routeTitle}}

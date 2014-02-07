@@ -1,6 +1,13 @@
 .prediction {
 	text-align: center;
 	margin: 0 auto;
+	cursor: pointer;
+
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit browsers */
+  -webkit-user-select: none;
+  -ms-user-select:none;
+  user-select:none;
 }
 
 .time {

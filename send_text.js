@@ -4,6 +4,7 @@ require('./config/config');
 var Twilio = require('./app/helpers/twilio')
 	, NextBus = require('./app/helpers/nextbus');
 
+// Need to order these.
 function sendText() {
 	NextBus.getAllPredictions(function(data) {
     console.log(data);

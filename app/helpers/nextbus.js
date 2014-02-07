@@ -3,7 +3,8 @@
 var http = require('http')
   , xml2js = require('xml2js')
   , parser = new xml2js.Parser()
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , moment = require('moment');
 
 // Set static variables.
 var a = 'sf-muni';
@@ -58,8 +59,11 @@ var stops = [{route: '2', stopTag: '6608'},
               var prediction = {};
               prediction.timeUntilArrival = 
               	Number(result.body.predictions[0].direction[0].prediction[i].$.minutes);
+              prediction.timeOfArrival = moment().add('minutes', prediction.timeUntilArrival)
+                .format("hh:mm");
               prediction.stopTitle = result.body.predictions[0].$.stopTitle;
               prediction.routeTitle = result.body.predictions[0].$.routeTitle;
+              prediction.showMinutes = true;
 
               predictions.push(prediction);
 

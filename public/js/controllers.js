@@ -9,7 +9,7 @@ sutterbus.controller('mainController', ['$scope', '$http', 'socket',
   $http.get('/nextbus')
   .success(function(data) {
     $scope.predictions = data;
-    console.log(data);
+    // console.log(data);
   })
   .error(function(data) {
     console.log('Error: ' + data);
