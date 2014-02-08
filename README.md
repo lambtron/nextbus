@@ -7,13 +7,13 @@ near you.
 
 Setup:
 
-Add a config.js file in the config folder. In this file, have the following:
+Add a config/config.js file. In this file, have the following:
 
 process.env.TWILIO_ASID = 'ACxx';
 process.env.TWILIO_AUTH_TOKEN = 'beyy';
 process.env.TWILIO_NUMBER = '+1415zz';
 
-In the .app/helpers/nextbus.js file, change the static variables to the agency,
+In the .app/controllers/nextbus.js file, change the static variables to the agency,
 stops, and route information to ones applicable to you.
 
 var a = 'sf-muni';

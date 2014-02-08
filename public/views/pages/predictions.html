@@ -1,0 +1,22 @@
+<div class="container" ng-controller="predictionsController">
+	<div ng-repeat="prediction in (predictions | orderBy: 'timeUntilArrival')" class="prediction" ng-click="
+    prediction.showMinutes = !prediction.showMinutes">
+		<div class="time">
+			<span class="number">
+				<span ng-show="prediction.showMinutes">
+					{{prediction.timeUntilArrival}}
+				</span>
+				<span ng-hide="prediction.showMinutes">
+					{{prediction.timeOfArrival}}
+				</span>
+			</span>
+			<span ng-show="prediction.showMinutes">
+				min
+			</span>
+		</div>
+		<span class="subtext">
+			{{prediction.stopTitle}} for the {{prediction.routeTitle}}
+		</span>
+		<hr>
+	</div>
+</div>

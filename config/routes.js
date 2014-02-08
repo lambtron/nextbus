@@ -3,9 +3,16 @@
 (function() {
 
 /**
+ * Import model ================================================================
+ */
+require('../app/models/pset');
+
+/**
  * Import helpers ==============================================================
  */
-var NextBus = require('../app/helpers/nextbus');
+var NextBus = require('../app/controllers/nextbus')
+  , mongoose = require('mongoose')
+  , Pset = mongoose.model('Pset');
 
 // Public functions. ===========================================================
 module.exports = function(app, io) {
@@ -33,9 +40,24 @@ module.exports = function(app, io) {
 
 	// Application route =========================================================
 	app.get('*', function(req, res) {
-		// Load the single view file (Angular will handle the page changes).
-		res.sendfile('index.html', {'root': './public/views/'});
-	});
-}
+    // Check if the route exists in the database.
+    var route = req.route.params[0].substr(1);
+
+    // If it exists, then render another file with another controller that
+    // hits the nextbus endpoint.
+ //    Pset.findOne( {url_endpoint: route}, function(err, pset) {
+ //      if (err)
+ //        res.send(err, 400);
+
+ //      // if (pset)
+ //      //   res.sendfile('index.html', {'root': './public/views/'});
+ //      // else
+ //      //   res.sendfile('setup.html', {'root': './public/views/'});
+ //      res.sendfile('index.html', {'root': './public/views/'});
+ //    });
+
+    res.sendfile('index.html', {'root': './public/views/'});
+  });
+};
 
 }());

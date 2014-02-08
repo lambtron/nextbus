@@ -21,8 +21,11 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/public/js/app.js"></script>
+	<script src="/public/js/config.js"></script>
 	<script src="/public/js/services.js"></script>
 	<script src="/public/js/controllers.js"></script>
 	<script src="/public/js/directives.js"></script>
@@ -32,28 +35,10 @@
 </head>
 
 <!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
-<body ng-controller="mainController">
-	<div class="container">
-		<div ng-repeat="prediction in (predictions | orderBy: 'timeUntilArrival')" class="prediction" ng-click="
-      prediction.showMinutes = !prediction.showMinutes">
-			<div class="time">
-				<span class="number">
-					<span ng-show="prediction.showMinutes">
-						{{prediction.timeUntilArrival}}
-					</span>
-					<span ng-hide="prediction.showMinutes">
-						{{prediction.timeOfArrival}}
-					</span>
-				</span>
-				<span ng-show="prediction.showMinutes">
-					min
-				</span>
-			</div>
-			<span class="subtext">
-				{{prediction.stopTitle}} for the {{prediction.routeTitle}}
-			</span>
-			<hr>
-		</div>
+<body>
+
+	<!-- Angular templating. -->
+	<div ng-view>
 	</div>
 </body>
 </html>

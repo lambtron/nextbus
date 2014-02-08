@@ -1,6 +1,6 @@
 'use strict';
 
-sutterbus.controller('mainController', ['$scope', '$http', 'socket',
+sutterbus.controller('predictionsController', ['$scope', '$http', 'socket',
 	function($scope, $http, socket)
 {
   // Initialize variables needed.
@@ -20,4 +20,10 @@ sutterbus.controller('mainController', ['$scope', '$http', 'socket',
     $scope.predictions = data;
     // console.log(data);
   });
+}]);
+
+sutterbus.controller('setupController', ['$scope', '$http',
+  function($scope, $http)
+{
+
 }]);

@@ -1,8 +1,8 @@
 // Set environmental variables.
 require('./config/config');
 
-var Twilio = require('./app/helpers/twilio')
-	, NextBus = require('./app/helpers/nextbus')
+var Twilio = require('./app/controllers/twilio')
+	, NextBus = require('./app/controllers/nextbus')
     , _ = require('underscore');
 
 // Need to order these.
