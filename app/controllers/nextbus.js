@@ -8,15 +8,15 @@ var http = require('http')
 
 // Set static variables.
 var a = 'sf-muni';
-var stops = [{route: '2', stopTag: '6608'},
-             {route: '3', stopTag: '6592'},
-             {route: '38', stopTag: '4761'},
-             {route: '38L', stopTag: '4294'}];
+// var stops = [{route: '2', stopTag: '6608'},
+//              {route: '3', stopTag: '6592'},
+//              {route: '38', stopTag: '4761'},
+//              {route: '38L', stopTag: '4294'}];
 
 (function() {
 
   module.exports = {
-    getAllPredictions: function getAllPredictions(fn) {
+    getAllPredictions: function getAllPredictions(stops, fn) {
       var allPredictions = [];
       for(var i = 0; i < stops.length; i++) {
         getPrediction(a, stops[i].route, stops[i].stopTag, function(data) {

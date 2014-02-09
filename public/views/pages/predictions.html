@@ -1,6 +1,5 @@
-<div class="container" ng-controller="predictionsController">
-	<div ng-repeat="prediction in (predictions | orderBy: 'timeUntilArrival')" class="prediction" ng-click="
-    prediction.showMinutes = !prediction.showMinutes">
+<div class="container">
+	<div ng-repeat="prediction in (predictions | orderBy: 'timeUntilArrival')" class="prediction" ng-click="prediction.showMinutes = !prediction.showMinutes">
 		<div class="time">
 			<span class="number">
 				<span ng-show="prediction.showMinutes">

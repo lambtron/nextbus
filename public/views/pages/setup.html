@@ -1,3 +1,37 @@
-<div class="container" ng-controller="setupController">
+<div class="container">
+	<div class="row">
+		<div class="page-header">
+			<h1>Add the bus stops you want to track.</h1>
+		</div>
+	</div>
 
+	<div class="row">
+		<div ng-repeat="stop in stopInformation.stops track by $index">
+			<div class="form-group col-lg-5">
+				<input type="text" placeholder="{{stop.route}}" class="form-control">
+			</div>
+			<div class="form-group col-lg-6">
+				<input type="text" placeholder="{{stop.stopTag}}" class="form-control">
+			</div>
+		  <div class="form-group col-lg-1" ng-click="stopInformation.removeStop($index)" style="cursor: pointer; padding-top: 6px">
+		  	<span class="glyphicon glyphicon-minus-sign"></span>
+		  </div>
+		</div>
+	</div>
+	<hr>
+	<div class="row">	
+	 	<div class="form-group col-lg-12">
+	 		<div class="btn-large btn-info btn pull-left" ng-click="stopInformation.addStop()">
+	 			Add new Route and Stop ID
+	 		</div>
+	 	</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+	  <div class="form-group col-lg-12">
+	  	<div class="btn-large btn-primary btn pull-left" ng-click="stopInformation.submit()">Generate your personalized bus tracking page!</div>
+	  </div>
+	</div>
 </div>

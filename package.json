@@ -19,6 +19,7 @@
     "underscore": "latest",
     "twilio": "latest",
     "socket.io": "latest",
-    "moment": "latest"
+    "moment": "latest",
+    "hashids": ""
   }
 }
