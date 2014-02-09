@@ -1,7 +1,6 @@
-- allow people to add their own stops
-- save those stops to a randomly generated hash
-- save the hash and those stops to mongodb
-- set up routes for that hash (if hash does not exist, send to setup screen)
-
 - how to allow people to set their own stops?
 + map of SF. add your address?
+
+- select route
+- then select direction
+- then select stop

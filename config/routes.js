@@ -13,12 +13,12 @@ require('../app/models/pset');
 var NextBus = require('../app/controllers/nextbus')
   , mongoose = require('mongoose')
   , Pset = mongoose.model('Pset')
-  , Hashids = require('hashids');
+  , HashIds = require('hashids');
 
 // Initialize hashing variables.
 var counter = Math.floor(Math.random()*1000)
   , salt = Math.random().toString(36).substring(10)
-  , hashids = new Hashids(salt, 12);
+  , hashIds = new HashIds(salt, 12);
 
 // Public functions. ===========================================================
 module.exports = function(app, io) {
@@ -27,7 +27,7 @@ module.exports = function(app, io) {
 	app.post('/getpredictions', function(req, res) {
 
     // Checking to see if Pset ID exists.
-    Pset.findOne( {url_endpoint: req.body.psetid}, function(err, pset) {
+    Pset.findOne( {pset_id: req.body.psetid}, function(err, pset) {
       if (err)
         res.send(err, 400);
 
@@ -68,13 +68,13 @@ module.exports = function(app, io) {
     // Validate. (But this can be done later)
 
     // Generate a unique URL endpoint for this set.
-    var new_url_endpoint = hashids.encrypt(counter);
+    var psetId = hashIds.encrypt(counter);
     counter = counter + 1;
 
     // Save it to MongoDB.
     Pset.create({
       phone_number: '',
-      url_endpoint: new_url_endpoint,
+      pset_id: psetId,
       stops: stops
     }, function(err, pset) {
       console.log('successfully created a new pset');
@@ -82,8 +82,29 @@ module.exports = function(app, io) {
       if (err)
         res.send(err, 400);
       else
-        res.send({psetid: new_url_endpoint}, 200);
+        res.send({psetid: psetId}, 200);
     });
+  });
+
+  // Input is bus line, output is direction.
+  // Input is bus line + direction, output is array of stops
+  // (incl. short title).
+  app.post('/setup', function(req, res) {
+    // Check the req.body.
+
+    if (req.body.route) {
+      // Have just a route?
+
+      // Return an of directions (inbound vs outbound, etc).
+    } else if (req.body.route && req.body.direction) {
+      // Have both route and direction?
+
+      // Return an array of stops.
+    } else {
+      // No route information? No problem.
+
+      // Return an array of routes.
+    }
   });
 
 	// Application route =========================================================

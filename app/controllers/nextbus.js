@@ -16,66 +16,85 @@ var a = 'sf-muni';
 (function() {
 
   module.exports = {
-    getAllPredictions: function getAllPredictions(stops, fn) {
+    getAllPredictions: function getAllPredictions(stops, cb) {
       var allPredictions = [];
       for(var i = 0; i < stops.length; i++) {
         getPrediction(a, stops[i].route, stops[i].stopTag, function(data) {
           allPredictions.push(data);
           if (allPredictions.length == stops.length)
-            fn(_.sortBy(_.compact(_.flatten(allPredictions)), 'timeUntilArrival'));
+            cb(_.sortBy(_.compact(_.flatten(allPredictions)), 'timeUntilArrival'));
         });
       }
+    },
+    getRoutes: function getRoutes(cb) {
+      var path = '/service/publicXMLFeed?command=routeList&a=' + a;
+
+    },
+    getRouteDirections: function getRouteDirections(route, cb) {
+      var path = '/service/publicXMLFeed?command'
+
+      cb();
+    },
+    getStopIds: function getStopIds(route, routeDirection, cb) {
+      var path = '/service/publicXMLFeed?command'
+
+      cb();
     }
   };
 
-  // a = sf-muni
-  function getPrediction(a, r, stopTag, fn) {
+  // This function makes all HTTP requests to nextbus API.
+  function getNextBus(path, cb) {
     var options = {
       host: 'webservices.nextbus.com',
-      path: '/service/publicXMLFeed?command=predictions&a=' + a + '&r=' + r +
-            '&s=' + stopTag + '&useShortTitles=true'
+      path: path
     };
 
-    // Make the HTTP request to Nextbus API.
     http.get(options, function(res) {
       var body = '';
       res.on('data', function(chunk) {
         body += chunk;
       });
       res.on('end', function() {
-        parser.parseString(body, function(err, result) {
-          // To get the stop title.
-          // console.log(result.body.predictions[0].$.stopTitle);
-
-          // To get the predictions.
-          if (typeof result.body.predictions[0].direction === 'undefined') {
-            fn(undefined);
-          } else {
-            var predictions = [];
-
-            for( var i = 0;
-              i < result.body.predictions[0].direction[0].prediction.length;
-              i++ ) {
-              var prediction = {};
-              prediction.timeUntilArrival =
-                Number(result.body.predictions[0].direction[0].prediction[i].$.minutes);
-              prediction.timeOfArrival = moment().zone("-08:00").add('minutes',
-                prediction.timeUntilArrival).format("h:mm");
-              prediction.stopTitle = result.body.predictions[0].$.stopTitle;
-              prediction.routeTitle = result.body.predictions[0].$.routeTitle;
-              prediction.showMinutes = true;
-
-              predictions.push(prediction);
-
-              // After putting all of it into the array.
-              if (predictions.length ==
-                result.body.predictions[0].direction[0].prediction.length ) {
-                fn(predictions);
-              }
-            }
-          }
-        });
+        parser.parseString(body, cb);
       });
+    });
+  }
+
+  // a = sf-muni
+  function getPrediction(a, r, stopTag, cb) {
+    var path = '/service/publicXMLFeed?command=predictions&a=' + a + '&r=' +
+      r + '&s=' + stopTag + '&useShortTitles=true';
+    getNextBus(path, function(err, result) {
+      // To get the stop title.
+      // console.log(result.body.predictions[0].$.stopTitle);
+
+      // To get the predictions.
+      if (typeof result.body.predictions[0].direction === 'undefined') {
+        cb(undefined);
+      } else {
+        var predictions = [];
+
+        for( var i = 0;
+          i < result.body.predictions[0].direction[0].prediction.length;
+          i++ ) {
+          var prediction = {};
+          prediction.timeUntilArrival =
+            Number(result.body.predictions[0].direction[0].prediction[i].$.minutes);
+          prediction.timeOfArrival = moment().zone("-08:00").add('minutes',
+            prediction.timeUntilArrival).format("h:mm");
+          prediction.stopTitle = result.body.predictions[0].$.stopTitle;
+          prediction.routeTitle = result.body.predictions[0].$.routeTitle;
+          prediction.showMinutes = true;
+
+          predictions.push(prediction);
+
+          // After putting all of it into the array.
+          if (predictions.length ==
+            result.body.predictions[0].direction[0].prediction.length ) {
+            cb(predictions);
+          }
+        }
+      }
     });
   }
 

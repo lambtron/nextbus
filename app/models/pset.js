@@ -19,7 +19,7 @@ var PsetSchema = new Schema({
     default: '',
     trim: true
   },
-  url_endpoint: {
+  pset_id: {
     type: String,
     default: '',
     trim: true
