@@ -29,11 +29,27 @@ var a = 'sf-muni';
     getRoutes: function getRoutes(cb) {
       var path = '/service/publicXMLFeed?command=routeList&a=' + a;
 
+      getNextBus(path, function(err, result) {
+        // result.body.route = [];
+        // result.body.route[0].$.tag = 'F'
+        // result.body.route[0].$.title = 'F-market & wharves'
+        var arr = [];
+        for (var i = 0; i < result.body.route.length; i++ ) {
+          var obj = {};
+          obj.route = result.body.route[i].$.tag;
+          obj.title = result.body.route[i].$.title;
+          arr.push(obj);
+        }
+        cb(arr);
+      });
     },
     getRouteDirections: function getRouteDirections(route, cb) {
-      var path = '/service/publicXMLFeed?command'
+      var path = '/service/publicXMLFeed?command=routeConfig&a=' + a +
+        '&r = ' + route;
 
-      cb();
+      getNextBus(path, function(err, result) {
+        console.log(result.body);
+      });
     },
     getStopIds: function getStopIds(route, routeDirection, cb) {
       var path = '/service/publicXMLFeed?command'
@@ -87,13 +103,9 @@ var a = 'sf-muni';
           prediction.showMinutes = true;
 
           predictions.push(prediction);
-
-          // After putting all of it into the array.
-          if (predictions.length ==
-            result.body.predictions[0].direction[0].prediction.length ) {
-            cb(predictions);
-          }
         }
+
+        cb(predictions);
       }
     });
   }
