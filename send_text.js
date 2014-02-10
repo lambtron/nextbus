@@ -1,9 +1,9 @@
 // Set environmental variables.
-require('./config/config');
+// require('./config/config');
 
 var Twilio = require('./app/controllers/twilio')
 	, NextBus = require('./app/controllers/nextbus')
-    , _ = require('underscore');
+  , _ = require('underscore');
 
 var stops = [{route: '2', stopTag: '6608'},
              {route: '3', stopTag: '6592'},
@@ -12,7 +12,7 @@ var stops = [{route: '2', stopTag: '6608'},
 
 // Need to order these.
 function sendText() {
-	NextBus.getAllPredictions(stops, function(data) {
+	NextBus.getAllPredictions(stops, function (data) {
     var itr = Math.min(data.length, 6);
     var body = '';
     for (var i = 0; i < itr; i++ ) {

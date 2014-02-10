@@ -10,9 +10,6 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , port = process.env.PORT || 3000;
 
-// Set environmental variables.
-require('./config/config');
-
 // Configuration ===============================================================
 mongoose.connect(database.url);
 app.set('views', __dirname + 'public/views');
