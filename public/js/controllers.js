@@ -31,6 +31,7 @@ sutterbus.controller('setupController',
 
   var route = $scope.route = '';
   var direction = $scope.direction = '';
+  var stop = $scope.stop = '';
 
   // Initialize variables.
   var stopInformation = $scope.stopInformation = {
@@ -68,6 +69,7 @@ sutterbus.controller('setupController',
     addStop: function addStop(route, stop) {
       var obj = {};
       obj.route = route.tag;
+      obj.routeTitle = route.title;
       obj.stopTag = stop.stopTag;
       obj.stopTitle = stop.stopTitle;
       obj.direction = stop.direction;
