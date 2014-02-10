@@ -91,7 +91,7 @@ var a = 'sf-muni';
           }
         }
 
-        // { 
+        // {
         //   directionArr: [{direction: 'Inbound'}, {direction: 'Outbound'}, ..],
         //   stopTagArr: [{direction: 'Inbound', stopTag: '5253', stopTitle: 'Judah st'}, ..]
         // }
