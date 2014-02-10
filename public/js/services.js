@@ -7,7 +7,8 @@ sutterbus.factory('socket', function ($rootScope) {
   var socket = io.connect();
   return {
     on: function (eventName, callback) {
-      socket.on(eventName, function () {  
+      // var socket = io.connect('/' + nameSpace);
+      socket.on(eventName, function () {
         var args = arguments;
         $rootScope.$apply(function () {
           callback.apply(socket, args);
@@ -15,6 +16,7 @@ sutterbus.factory('socket', function ($rootScope) {
       });
     },
     emit: function (eventName, data, callback) {
+      // var socket = io.connect('/' + nameSpace);
       socket.emit(eventName, data, function () {
         var args = arguments;
         $rootScope.$apply(function () {
@@ -22,7 +24,7 @@ sutterbus.factory('socket', function ($rootScope) {
             callback.apply(socket, args);
           }
         });
-      })
+      });
     }
   };
 });

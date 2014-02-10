@@ -33,32 +33,37 @@ module.exports = function (app, io) {
 
       if (pset) {
         // If pset exists, then return nextbus predictions!
+        var startTime = new Date().getTime();
+        var startLoop = function startLoop (stops) {
+          // Stop after five minutes.
+          if(new Date().getTime() - startTime > 300000){
+            clearInterval(interval);
+            return;
+          }
+
+          NextBus.getAllPredictions(stops, function (err, data) {
+            if (err)
+              res.send(err, 400);
+            else {
+              // var client = io.of('/' + psetId).once('connection', function (socket) {
+              //   console.log('sending more data: ' + data);
+              //   client.emit('predictions', data);
+              // });
+              io.sockets.emit('predictions', data);
+              res.send(data, 200);
+            }
+          });
+        };
         startLoop(pset.stops);
-        var interval = setInterval(function(){startLoop(pset.stops);}, 10000);
+        var interval = setInterval( function() {
+          startLoop(pset.stops);
+        }, 10000);
       } else {
         // If pset does not exist, tell controller to redirect to '/'.
         console.log('PSet ID does not exist; redirecting user to root.');
         res.send('redirect', 302);
       }
     });
-
-    var startTime = new Date().getTime();
-    function startLoop(stops) {
-      // Stop after five minutes.
-      if(new Date().getTime() - startTime > 300000){
-        clearInterval(interval);
-        return;
-      }
-
-      NextBus.getAllPredictions(stops, function (err, data) {
-        if (err)
-          res.send(err, 400);
-        else {
-          io.sockets.emit('predictions', data);
-          res.send(data, 200);
-        }
-      });
-    }
 	});
 
   // Save bus stop information.
