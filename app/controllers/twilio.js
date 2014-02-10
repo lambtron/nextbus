@@ -9,7 +9,7 @@ module.exports = {
       to: to,
       from: process.env.TWILIO_NUMBER,
       body: body
-    }, function(err, responseData) {
+    }, function (err, responseData) {
       if (!err) {
         // console.log(responseData);
       } else {

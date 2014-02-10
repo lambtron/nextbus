@@ -21,13 +21,13 @@ var counter = Math.floor(Math.random()*1000)
   , hashIds = new HashIds(salt, 12);
 
 // Public functions. ===========================================================
-module.exports = function(app, io) {
+module.exports = function (app, io) {
 
   // This will check to see if the pset id exists, if so, return predictions.
-	app.post('/getpredictions', function(req, res) {
+	app.post('/getpredictions', function (req, res) {
 
     // Checking to see if Pset ID exists.
-    Pset.findOne( {pset_id: req.body.psetid}, function(err, pset) {
+    Pset.findOne( {pset_id: req.body.psetid}, function (err, pset) {
       if (err)
         res.send(err, 400);
 
@@ -50,15 +50,19 @@ module.exports = function(app, io) {
         return;
       }
 
-      NextBus.getAllPredictions(stops, function(data) {
-        io.sockets.emit('predictions', data);
-        res.send(data, 200);
+      NextBus.getAllPredictions(stops, function (err, data) {
+        if (err)
+          res.send(err, 400);
+        else {
+          io.sockets.emit('predictions', data);
+          res.send(data, 200);
+        }
       });
     }
 	});
 
   // Save bus stop information.
-  app.post('/save', function(req, res) {
+  app.post('/save', function (req, res) {
     // req.body is an Array:
     // [ { route: '2', stopTag: '6608' },
     //   { route: '3', stopTag: '6592' } ]
@@ -89,26 +93,34 @@ module.exports = function(app, io) {
   // Input is bus line, output is direction.
   // Input is bus line + direction, output is array of stops
   // (incl. short title).
-  app.post('/setup', function(req, res) {
+  app.post('/setup', function (req, res) {
     // Check the req.body.
 
-    if (req.body.route) {
+    if (req.body.routeTag) {
       // Have just a route?
+      NextBus.getRouteDirections(req.body.routeTag, function(err, data) {
+        if (err)
+          res.send(err, 400);
+        else
+          res.send(data);
+      });
 
-      // Return an of directions (inbound vs outbound, etc).
-    } else if (req.body.route && req.body.direction) {
-      // Have both route and direction?
-
-      // Return an array of stops.
+      // Return an of directions and stops (inbound vs outbound, etc).
     } else {
       // No route information? No problem.
+      NextBus.getRoutes(function (err, data) {
+        if (err)
+          res.send(err, 400);
+        else
+          res.send(data);
+      });
 
       // Return an array of routes.
     }
   });
 
 	// Application route =========================================================
-	app.get('/*', function(req, res) {
+	app.get('/*', function (req, res) {
     res.sendfile('index.html', {'root': './public/views/'});
   });
 };

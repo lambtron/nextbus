@@ -5,28 +5,54 @@
 		</div>
 	</div>
 
+
 	<div class="row">
-		<div ng-repeat="stop in stopInformation.stops track by $index">
-			<div class="form-group col-lg-5">
-				<input type="text" placeholder="{{stop.route}}" class="form-control">
+		<div ng-repeat="stop in stopInformation.selectedStops track by $index">
+			<div class="form-group col-lg-3">
+				{{stop.route}}
+				<!-- <input type="text" placeholder="{{stop.route}}" class="form-control"> -->
 			</div>
-			<div class="form-group col-lg-6">
-				<input type="text" placeholder="{{stop.stopTag}}" class="form-control">
+			<div class="form-group col-lg-4"> 
+				{{stop.direction}}
+			</div>
+			<div class="form-group col-lg-4">
+				{{stop.stopTitle}}
+				<!-- <input type="text" placeholder="{{stop.stopTag}}" class="form-control"> -->
 			</div>
 		  <div class="form-group col-lg-1" ng-click="stopInformation.removeStop($index)" style="cursor: pointer; padding-top: 6px">
 		  	<span class="glyphicon glyphicon-minus-sign"></span>
 		  </div>
 		</div>
 	</div>
+
+
+	<div class="row">
+		<div class="form-group col-lg-4">
+			<select class="form-control" ng-model="route"
+							ng-options="route.title for route in stopInformation.routes"
+							ng-change="stopInformation.getStopTags(route)"></select>
+		</div>
+		<div class="form-group col-lg-4">
+			<select class="form-control" ng-model="direction"
+							ng-options="a.direction for a
+							in stopInformation.directions"></select>
+		</div>
+		<div class="form-group col-lg-4">
+			<select class="form-control" ng-model="stop"
+							ng-options="a.stopTitle for a
+							in stopInformation.stops | filter:direction"
+							ng-change="stopInformation.addStop(route, stop)"></select>
+		</div>
+	</div>
 	<hr>
-	<div class="row">	
+<!-- 	<div class="row">	
 	 	<div class="form-group col-lg-12">
 	 		<div class="btn-large btn-info btn pull-left" ng-click="stopInformation.addStop()">
 	 			Add new Route and Stop ID
 	 		</div>
 	 	</div>
 	</div>
-
+ -->
 	<br>
 
 	<div class="row">
