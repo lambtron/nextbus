@@ -75,7 +75,7 @@ var a = 'sf-muni';
         results.stopsArr = [];
 
         // This array has stop tags and titles based on direction.
-        for (var i = 0; i < directions.length; i++) {
+        for (i = 0; i < directions.length; i++) {
           var obj = {};
           obj.direction = directions[i].$.title;
           results.directionsArr.push(obj);
@@ -129,7 +129,7 @@ var a = 'sf-muni';
 
       // To get the predictions.
       if (typeof result.body.predictions[0].direction === 'undefined') {
-        cb(undefined);
+        cb(undefined, undefined);
       } else {
         var predictions = [];
 
@@ -138,9 +138,10 @@ var a = 'sf-muni';
           i++ ) {
           var prediction = {};
           prediction.timeUntilArrival =
-            Number(result.body.predictions[0].direction[0].prediction[i].$.minutes);
-          prediction.timeOfArrival = moment().zone("-08:00").add('minutes',
-            prediction.timeUntilArrival).format("h:mm");
+            Number(result.body.predictions[0].direction[0].prediction[i]
+            .$.minutes);
+          prediction.timeOfArrival = moment().zone('-08:00').add('minutes',
+            prediction.timeUntilArrival).format('h:mm');
           prediction.stopTitle = result.body.predictions[0].$.stopTitle;
           prediction.routeTitle = result.body.predictions[0].$.routeTitle;
           prediction.showMinutes = true;
