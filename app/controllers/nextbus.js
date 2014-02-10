@@ -48,7 +48,7 @@ var a = 'sf-muni';
     },
     getRouteDirections: function getRouteDirections(routeTag, cb) {
       var path = '/service/publicXMLFeed?command=routeConfig&a=' + a +
-        '&r=' + routeTag;
+        '&r=' + routeTag + '&terse';
 
       getNextBus(path, function (err, result) {
         // result.body.route[0] = {$, stop, direction}
@@ -78,7 +78,10 @@ var a = 'sf-muni';
         for (i = 0; i < directions.length; i++) {
           var obj = {};
           obj.direction = directions[i].$.title;
-          results.directionsArr.push(obj);
+
+          if (findIndexByKeyValue(results.directionsArr, 'direction',
+            obj.direction) === null)
+            results.directionsArr.push(obj);
 
           for (var j = 0; j < directions[i].stop.length;
             j++ ) {
@@ -87,15 +90,15 @@ var a = 'sf-muni';
             obj2.stopTag = directions[i].stop[j].$.tag;
             obj2.stopTitle = stopHash[obj2.stopTag];
 
-            results.stopsArr.push(obj2);
+            if (findIndexByKeyValue(results.stopsArr, 'stopTag',
+              obj2.stopTag) === null)
+              results.stopsArr.push(obj2);
           }
         }
-
         // {
         //   directionArr: [{direction: 'Inbound'}, {direction: 'Outbound'}, ..],
         //   stopTagArr: [{direction: 'Inbound', stopTag: '5253', stopTitle: 'Judah st'}, ..]
         // }
-
         cb(err, results);
       });
     }
@@ -152,6 +155,14 @@ var a = 'sf-muni';
         cb(err, predictions);
       }
     });
+  }
+
+  function findIndexByKeyValue(arr, key, value) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i][key] == value)
+        return i;
+    }
+    return null;
   }
 
 }());
