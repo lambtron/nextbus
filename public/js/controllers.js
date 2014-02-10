@@ -49,6 +49,11 @@ sutterbus.controller('setupController',
       })
     },
     getStopTags: function getStopTags(route) {
+      // Reset everything first, we don't want users mis-selecting.
+      this.directions.length = 0;
+      this.stops.length = 0;
+      $scope.direction = '';
+
       // console.log(route);
       $http.post('/setup', {routeTag: route.tag} )
       .success(function (data) {
@@ -57,10 +62,7 @@ sutterbus.controller('setupController',
         // }
         stopInformation.directions = data.directionsArr;
         stopInformation.stops = data.stopsArr;
-
         // [ { direction: 'hi'}, {...}]
-
-        console.log(data);
       })
       .error(function (data) {
         console.log('Server error: ' + data);
@@ -73,9 +75,6 @@ sutterbus.controller('setupController',
       obj.stopTag = stop.stopTag;
       obj.stopTitle = stop.stopTitle;
       obj.direction = stop.direction;
-
-      console.log(obj);
-
       this.selectedStops.push(obj);
     },
     removeStop: function removeStop(index) {
