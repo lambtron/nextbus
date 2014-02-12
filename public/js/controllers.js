@@ -18,10 +18,8 @@ sutterbus.controller('predictionsController',
   });
 
   // Receiving data from server and pushing to front-end.
-  socket.on('predictions', function (data) {
+  socket.of('/' + $routeParams.psetid, 'predictions', function (data) {
     $scope.predictions = data;
-    console.log('Incoming socket data');
-    console.log(data);
   });
 }]);
 

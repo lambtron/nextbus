@@ -9,7 +9,7 @@
     "url": "https://github.com/lambtron/nextbus"
   },
   "engines": {
-    "node": "0.8.21",
+    "node": "0.10.22",
     "npm": "1.1.x"
   },
   "private": true,

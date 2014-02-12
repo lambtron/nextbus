@@ -45,12 +45,8 @@ module.exports = function (app, io) {
             if (err)
               res.send(err, 400);
             else {
-              // var client = io.of('/' + psetId).once('connection', function (socket) {
-              //   console.log('sending more data: ' + data);
-              //   client.emit('predictions', data);
-              // });
-              io.sockets.emit('predictions', data);
-              res.send(data, 200);
+              io.of('/' + pset.pset_id).emit('predictions', data);
+              // res.send(data, 200);
             }
           });
         };
