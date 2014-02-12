@@ -14,6 +14,10 @@ var PsetSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  last_checked_on: {
+    type: Date,
+    default: Date.now
+  },
   phone_number: {
     type: String,
     default: '',
@@ -38,8 +42,10 @@ var PsetSchema = new Schema({
 /**
  * Statics
  */
-PsetSchema.statics = {
-
+PsetSchema.methods = {
+  updateLastChecked: function updateLastChecked () {
+    this.last_checked_on = Date.now;
+  }
 };
 
 mongoose.model('Pset', PsetSchema);

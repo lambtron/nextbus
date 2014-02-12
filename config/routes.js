@@ -33,6 +33,8 @@ module.exports = function (app, io) {
 
       if (pset) {
         // If pset exists, then return nextbus predictions!
+        pset.updateLastChecked();
+
         var startTime = new Date().getTime();
         var startLoop = function startLoop (stops) {
           // Stop after five minutes.
