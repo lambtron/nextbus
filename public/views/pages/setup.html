@@ -50,20 +50,26 @@
 			<select class="form-control" ng-model="route"
 							ng-options="route.title for route in stopInformation.routes"
 							ng-change="stopInformation.getStopTags(route)"
-							ng-disabled="stopInformation.routes.length == 0"></select>
+							ng-disabled="stopInformation.routes.length == 0">
+				<option style="display:none" value="">Select a route</option>
+			</select>
 		</div>
-		<div class="form-group col-sm-4">
+		<div class="form-group col-sm-4" ng-show="stopInformation.directions != 0">
 			<select class="form-control" ng-model="direction"
 							ng-options="a.direction for a
 							in stopInformation.directions"
-							ng-disabled="stopInformation.directions == 0"></select>
+							ng-disabled="stopInformation.directions == 0">
+				<option style="display:none" value="">Select a direction</option>
+			</select>
 		</div>
-		<div class="form-group col-sm-4">
+		<div class="form-group col-sm-4" ng-show="direction.length != 0">
 			<select class="form-control" ng-model="stop"
 							ng-options="a.stopTitle for a
 							in stopInformation.stops | filter:direction"
 							ng-change="stopInformation.addStop(route, stop)"
-							ng-disabled="direction.length == 0"></select>
+							ng-disabled="direction.length == 0">
+				<option style="display:none" value="">Select a stop</option>
+			</select>
 		</div>
 	</div>
 	<hr>
