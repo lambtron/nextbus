@@ -37,12 +37,11 @@ module.exports = function (app, io) {
 
         var startTime = new Date().getTime();
         var startLoop = function startLoop (stops) {
-          // Stop after five minutes.
+          // Stop after five minutes (300,000)
           if(new Date().getTime() - startTime > 300000){
             clearInterval(interval);
             return;
           }
-
           NextBus.getAllPredictions(stops, function (err, data) {
             if (err)
               res.send(err, 400);
