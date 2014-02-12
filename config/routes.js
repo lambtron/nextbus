@@ -48,7 +48,7 @@ module.exports = function (app, io) {
               res.send(err, 400);
             else {
               io.of('/' + pset.pset_id).emit('predictions', data);
-              // res.send(data, 200);
+              res.send(data, 200);
             }
           });
         };
