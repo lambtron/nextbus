@@ -37,7 +37,7 @@ module.exports = function (app, io) {
 
         var startTime = new Date().getTime();
         var startLoop = function startLoop (stops) {
-          // Stop after five minutes (300,000)
+          // Stop after five minutes (300,000 seconds)
           if(new Date().getTime() - startTime > 300000){
             clearInterval(interval);
             return;
