@@ -1,25 +1,19 @@
-=======
-NextBus
-=======
+# Sutter Bus
 
-This little app lets you see the prediction times of buses at stops and routes
-near you.
+Your personalized real-time bus tracker
 
-Setup:
+If you take the muni on a daily basis, it can be a hassle checking bus prediction web sites/apps for your various routes and stops to get an estimation of when your next bus will arrive. This app requires one time setup, where you select the bus routes and the stops that you frequently take. It will then generate a unique URL (that you can book mark or save onto your phone) that will display real time prediction data for your selected routes and stops.
 
-Add a config/config.js file. In this file, have the following:
+## How to use
 
-process.env.TWILIO_ASID = 'ACxx';
-process.env.TWILIO_AUTH_TOKEN = 'beyy';
-process.env.TWILIO_NUMBER = '+1415zz';
+Visit http://sutterbus.herokuapp.com/ either on your mobile Safari or on a desk top web browser. Select the routes and the bus stops that you primarily frequent. Hit the button and a unique web page will be generated for you.
 
-In the .app/controllers/nextbus.js file, change the static variables to the agency,
-stops, and route information to ones applicable to you.
+Feel free to save this URL for your future use.
 
-var a = 'sf-muni';
-var stops = [{route: '2', stopTag: '6608'},
-             {route: '3', stopTag: '6592'},
-             {route: '38', stopTag: '4761'},
-             {route: '38L', stopTag: '4294'}];
+## Future ideas
 
-Then deploy it and you will be ready to go.
+- Sending a text to your phone with the predictions so you don't have to actively log onto the website
+- From the website, selecting a 'bus' prediction time to receive a text message when that bus is within five minutes of your stop
+- Allowing users to text the URL of the app to their phone
+
+I hope you find this useful. I am open to ideas and suggestions. Feel free to tweet at me @andyjiang.
