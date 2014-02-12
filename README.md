@@ -2,11 +2,15 @@
 
 Your personalized real-time bus tracker
 
+[Sutter Bus setup](readme/setup.png)
+
 If you take the muni on a daily basis, it can be a hassle checking bus prediction web sites/apps for your various routes and stops to get an estimation of when your next bus will arrive. This app requires one time setup, where you select the bus routes and the stops that you frequently take. It will then generate a unique URL (that you can book mark or save onto your phone) that will display real time prediction data for your selected routes and stops.
 
 ## How to use
 
 Visit http://sutterbus.herokuapp.com/ either on your mobile Safari or on a desk top web browser. Select the routes and the bus stops that you primarily frequent. Hit the button and a unique web page will be generated for you.
+
+[Your bus predictions](readme/prediction.png)
 
 Feel free to save this URL for your future use.
 
