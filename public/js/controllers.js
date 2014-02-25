@@ -26,9 +26,8 @@ sutterbus.controller('predictionsController',
 // Controller used to POST and save bus stop data to the API.
 sutterbus.controller('setupController',
   ['$scope', '$http', '$location',
-  function($scope, $http, $location)
+  function ($scope, $http, $location)
 {
-
   var route = $scope.route = '';
   var direction = $scope.direction = '';
   var stop = $scope.stop = '';
