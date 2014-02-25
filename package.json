@@ -20,6 +20,7 @@
     "twilio": "latest",
     "socket.io": "latest",
     "moment": "latest",
-    "hashids": ""
+    "hashids": "",
+    "analytics-node": ""
   }
 }
