@@ -54,7 +54,7 @@
 				<option style="display:none" value="">Select a route</option>
 			</select>
 		</div>
-		<div class="form-group col-sm-4" ng-show="stopInformation.directions != 0">
+		<div class="form-group col-sm-4">
 			<select class="form-control" ng-model="direction"
 							ng-options="a.direction for a
 							in stopInformation.directions"
@@ -62,11 +62,10 @@
 				<option style="display:none" value="">Select a direction</option>
 			</select>
 		</div>
-		<div class="form-group col-sm-4" ng-show="direction.length != 0">
+		<div class="form-group col-sm-4">
 			<select class="form-control" ng-model="stop"
 							ng-options="a.stopTitle for a
 							in stopInformation.stops | filter:direction"
-							ng-change="stopInformation.addStop(route, stop)"
 							ng-disabled="direction.length == 0">
 				<option style="display:none" value="">Select a stop</option>
 			</select>
@@ -75,8 +74,26 @@
 	<hr>
 
 	<div class="row">
+	  <div class="form-group col-xs-6">
+	  	<div class="btn-large btn-warning btn" style="white-space: normal; width: 100%" ng-click="stopInformation.reset()">
+	  		<h4>
+	  			Cancel
+  			</h4>
+  		</div>
+	  </div>
+
+	  <div class="form-group col-xs-6">
+	  	<div class="btn-large btn-primary btn" style="white-space: normal; width: 100%" ng-click="stopInformation.addStop(route, stop)" ng-disabled="route.length == 0 || stop.length == 0">
+	  		<h4>
+	  			Add stop
+  			</h4>
+  		</div>
+	  </div>
+	</div>
+
+	<div class="row">
 	  <div class="form-group col-xs-12">
-	  	<div class="btn-large btn-primary btn pull-left" style="white-space: normal" ng-click="stopInformation.submit()" ng-disabled="stopInformation.selectedStops == 0">
+	  	<div class="btn-large btn-success btn" style="white-space: normal; width: 100%" ng-click="stopInformation.submit()" ng-disabled="stopInformation.selectedStops == 0" ng-show="stopInformation.selectedStops.length > 0">
 	  		<h4>
 	  			Generate your personalized bus tracking page!
   			</h4>

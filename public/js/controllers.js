@@ -75,6 +75,8 @@ sutterbus.controller('setupController',
       obj.stopTitle = stop.stopTitle;
       obj.direction = stop.direction;
       this.selectedStops.push(obj);
+
+      this.reset();
     },
     removeStop: function removeStop(index) {
       this.selectedStops.splice(index, 1);
@@ -89,6 +91,13 @@ sutterbus.controller('setupController',
       .error(function (data) {
         console.log('Server error: ' + data);
       });
+    },
+    reset: function reset() {
+      $scope.route = '';
+      $scope.direction = '';
+      $scope.stop = '';
+      this.directions.length = 0;
+      this.stops.length = 0;
     }
   };
 
