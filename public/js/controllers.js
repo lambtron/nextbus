@@ -18,7 +18,7 @@ sutterbus.controller('predictionsController',
   });
 
   // Receiving data from server and pushing to front-end.
-  socket.of('/' + $routeParams.psetid, 'predictions', function (data) {
+  socket.of('/' + $routeParams.psetid, 'predictions', 300000, function (data) {
     $scope.predictions = data;
   });
 }]);
@@ -26,9 +26,8 @@ sutterbus.controller('predictionsController',
 // Controller used to POST and save bus stop data to the API.
 sutterbus.controller('setupController',
   ['$scope', '$http', '$location',
-  function($scope, $http, $location)
+  function ($scope, $http, $location)
 {
-
   var route = $scope.route = '';
   var direction = $scope.direction = '';
   var stop = $scope.stop = '';

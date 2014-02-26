@@ -1,8 +1,8 @@
 // Set environmental variables.
 // require('./config/config');
 
-var Twilio = require('./app/controllers/twilio')
-	, NextBus = require('./app/controllers/nextbus')
+var Twilio = require('../app/controllers/twilio')
+	, NextBus = require('../app/controllers/nextbus')
   , _ = require('underscore');
 
 var stops = [{route: '2', stopTag: '6608'},
